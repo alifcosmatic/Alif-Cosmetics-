@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ALIF COSMETIC | Beauty Store</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#fff8fb;color:#382a34}header{background:#a81c66;color:white;padding:18px;text-align:center}header h1{margin:0;font-size:30px}nav{background:#7f164f;text-align:center;padding:12px}nav a{color:white;margin:0 12px;text-decoration:none;font-weight:bold}.hero{text-align:center;padding:50px 16px;background:linear-gradient(120deg,#ffd3e7,#fff1f7)}.hero h2{font-size:32px;margin:0 0 12px}.hero p{font-size:18px}.container{max-width:1100px;margin:auto;padding:25px 15px}h2{text-align:center}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px}.card{background:white;border-radius:14px;box-shadow:0 4px 15px #0001;text-align:center;padding:20px}.icon{font-size:56px}.card h3{margin:10px 0}.price{font-weight:bold;color:#a81c66}button{border:0;border-radius:8px;background:#a81c66;color:white;padding:11px 16px;cursor:pointer;font-size:15px}button:hover{background:#7f164f}.cart{background:white;border-radius:12px;padding:20px;box-shadow:0 4px 15px #0001}.cart li{margin:9px 0}.muted{color:#777}footer{text-align:center;background:#7f164f;color:white;padding:25px;margin-top:35px}input{padding:10px;border:1px solid #ddd;border-radius:8px;width:100%;max-width:350px;margin:6px 0} .small{font-size:13px;color:#666}
+</style>
+</head>
+<body>
+<header><h1>🌸 ALIF COSMETIC 🌸</h1><p>Your Beauty, Our Passion</p></header>
+<nav><a href="#home">Home</a><a href="#products">Products</a><a href="#cart">Cart (<span id="count">0</span>)</a><a href="#contact">Contact</a></nav>
+<section class="hero" id="home"><h2>Welcome to ALIF COSMETIC</h2><p>আপনার পছন্দের বিউটি প্রোডাক্ট এখন এক জায়গায়!</p><a href="#products"><button>Shop Now</button></a></section>
+<main class="container"><section id="products"><h2>Our Products</h2><p class="small" style="text-align:center">দামগুলো নমুনা। বাংলাদেশি টাকা (৳) এবং জাপানি ইয়েন (¥) দেখানো হয়েছে। ¥ মূল্য আনুমানিক, উদাহরণস্বরূপ ১ ইয়েন = ৳০.৮০ ধরা হয়েছে; এটি বর্তমান বিনিময় হার নয়।</p><div class="grid" id="productGrid"></div></section>
+<section id="cart" style="margin-top:45px"><h2>🛒 Your Cart</h2><div class="cart"><ul id="cartItems"><li class="muted">এখনো কোনো পণ্য যোগ করা হয়নি।</li></ul><h3>Total: ৳<span id="total">0</span></h3><button onclick="clearCart()">Clear Cart</button><h3>Order Details</h3><input id="customer" placeholder="আপনার নাম"><br><input id="phone" placeholder="মোবাইল নম্বর"><br><input id="address" placeholder="ডেলিভারি ঠিকানা"><br><button onclick="placeOrder()">Prepare Order</button><button onclick="copyOrder()" style="margin-left:8px">Copy Order</button><p id="message" class="small">অর্ডারের তথ্য কপি করে দোকানে পাঠাতে পারবেন। ওয়েবসাইট থেকে সরাসরি অর্ডার জমা হয় না।</p></div></section>
+<section id="contact" style="margin-top:45px;text-align:center"><h2>Contact Us</h2><p>ALIF COSMETIC</p><p>📍 মুরাদনগর, কুমিল্লা, বাংলাদেশ</p><p>📞 Owner (Bangladesh): <a href="tel:+8801771736269">01771736269</a></p><p>📞 Manager (Japan): <a href="tel:+818061482570">08061482570</a></p><p class="small">আন্তর্জাতিক কলের ক্ষেত্রে চার্জ প্রযোজ্য হতে পারে।</p></section></main>
+<footer>© 2026 ALIF COSMETIC. All rights reserved.</footer>
+<script>
+const products=[['Perfume',850,'🌺'],['Lipstick',350,'💄'],['Face Cream',550,'🧴'],['Face Wash',420,'🫧'],['Moisturizer',650,'💧'],['Hair Oil',380,'🪔'],['Foundation',900,'💅'],['Eyeliner',280,'👁️'],['Mascara',480,'✨'],['Sunscreen',720,'☀️'],['Shampoo',450,'🧴'],['Body Lotion',600,'🌷']];
+let cart=[];
+document.getElementById('productGrid').innerHTML=products.map((p,i)=>`<div class="card"><div class="icon">${p[2]}</div><h3>${p[0]}</h3><p class="price">৳${p[1]} <br><small>≈ ¥${Math.round(p[1]/0.8).toLocaleString("en-US")}</small></p><button onclick="addToCart(${i})">Add to Cart</button></div>`).join('');
+function addToCart(i){cart.push(i);renderCart()}
+function clearCart(){cart=[];renderCart()}
+function renderCart(){document.getElementById('count').textContent=cart.length;document.getElementById('cartItems').innerHTML=cart.length?cart.map((i,j)=>`<li>${products[i][0]} — ৳${products[i][1]} <button onclick="removeItem(${j})" style="padding:4px 8px">×</button></li>`).join(''):'<li class="muted">এখনো কোনো পণ্য যোগ করা হয়নি।</li>';document.getElementById('total').textContent=cart.reduce((sum,i)=>sum+products[i][1],0)}
+function removeItem(j){cart.splice(j,1);renderCart()}
+function orderText(){const name=document.getElementById('customer').value.trim(),phone=document.getElementById('phone').value.trim(),address=document.getElementById('address').value.trim();if(!cart.length||!name||!phone||!address)return null;return `ALIF COSMETIC Order\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\nItems:\n${cart.map(i=>products[i][0]+': ৳'+products[i][1]).join('\n')}\nTotal: ৳${cart.reduce((s,i)=>s+products[i][1],0)}`;}
+async function copyOrder(){const t=orderText();if(!t){document.getElementById('message').textContent='পণ্য, নাম, ফোন ও ঠিকানা পূরণ করুন।';return;}try{await navigator.clipboard.writeText(t);document.getElementById('message').textContent='অর্ডারের তথ্য কপি হয়েছে। দোকানের মালিককে পাঠান।';}catch(e){document.getElementById('message').textContent=t;}}
+function placeOrder(){const name=document.getElementById('customer').value.trim(),phone=document.getElementById('phone').value.trim(),address=document.getElementById('address').value.trim();document.getElementById('message').textContent=!cart.length?'আগে পণ্য নির্বাচন করুন।':!name||!phone||!address?'নাম, ফোন ও ঠিকানা লিখুন।':'অর্ডার প্রস্তুত। Copy Order চাপুন এবং মালিককে পাঠান। এটি স্বয়ংক্রিয়ভাবে জমা হয় না।'}
+</script>
+</body></html>
